@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        
+        <title>Spark Publish Visualizations</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                
+        <link href="http://198.0.150.9/static/css/bootstrap.min.css" rel="stylesheet">
+    
+        <script src="https://code.jquery.com/jquery.js"></script>
+        <script src="http://198.0.150.9/static/js/bootstrap.min.js"></script>
+        <script src="http://198.0.150.9/static/js/d3.v3.min.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                var ids = [];
+                var colorAssignments = {};
+
+                var nodes = [],
+                        links = [];
+                var a = {id: "a"};
+                nodes.push(a);
+
+                var source = new EventSource("https://api.spark.io/v1/events?access_token=78a5fd8862a54661f3f92bd9f25836e995333b52");
+                if (typeof(EventSource) !== "undefined") {
+                    console.log("SSE is Supported!");
+                } else {
+                    console.log("SSE is NOT Supported");
+                }
+                console.log("Done");
+                source.addEventListener('Meat_Thermometer_Temp_F', function (e) {
+                    var obj = jQuery.parseJSON(e.data);
+                    //console.log(obj)
+                    var data = jQuery.parseJSON(obj.data);
+                    console.log(data.temp);
+                    $("#temp").html( "<h2>" + data.temp + "&deg F</h2>" );
+                }, false);
+            });
+
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="page-inner text-center">
+                <div class="row">
+                    <div class="col-lg-4 text-center"></div>
+                    <div class="col-lg-4 text-center">
+                        <img class="img-center img-responsive" width="50%" align="center" style="display: block;margin-left: auto;margin-right: auto" src="http://bluz.io/static/img/logo.png" />
+                        <h3 class="text-center"><u>Bluz Grill Thermometer</u></h3>
+                        <div id="temp"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
