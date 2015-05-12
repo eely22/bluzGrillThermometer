@@ -3,7 +3,7 @@ var fs, serverEvent, express, app, request, extend, events, eventEmitter, bodyPa
 express = require('express');
 app = express();
 
-app.listen(80);
+app.listen(8080);
 
 //return the admin page, which is the Homeowner UI
 app.get('/', function (req, res) {
